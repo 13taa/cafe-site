@@ -3,35 +3,35 @@ import './index.css';
 
 const defaultCategories = [
   { 
-    id: 1, name: 'Burgerlar', bgText: 'B',
+    id: 1, name: 'Burgerlar', bgText: 'B', bgImage: './bg-burger.png',
     items: [
       { id: 101, name: 'Klasik Cheeseburger', desc: '150g ev yapımı dana köfte, cheddar, karamelize soğan', price: '250 ₺', image: '' },
       { id: 102, name: 'Truffle Burger', desc: 'Trüf mayonez, ızgara mantar, emmental peyniri', price: '320 ₺', image: '' }
     ]
   },
   { 
-    id: 2, name: 'Makarnalar', bgText: 'M',
+    id: 2, name: 'Makarnalar', bgText: 'M', bgImage: './bg-pasta.png',
     items: [
       { id: 201, name: 'Fettuccine Alfredo', desc: 'Krema soslu, taze mantar ve parmesanlı', price: '280 ₺', image: '' },
       { id: 202, name: 'Penne Arrabbiata', desc: 'Acılı domates sos, siyah zeytin, taze fesleğen', price: '240 ₺', image: '' }
     ]
   },
   { 
-    id: 3, name: 'Salatalar', bgText: 'S',
+    id: 3, name: 'Salatalar', bgText: 'S', bgImage: './bg-salad.png',
     items: [
       { id: 301, name: 'Tavuklu Sezar', desc: 'Izgara tavuk dilimleri, kruton, özel sezar sos', price: '220 ₺', image: '' },
       { id: 302, name: 'Akdeniz Yeşillikleri', desc: 'Ezine peyniri, ceviz, nar ekşisi, zeytinyağı', price: '190 ₺', image: '' }
     ]
   },
   { 
-    id: 4, name: 'Tatlılar', bgText: 'T',
+    id: 4, name: 'Tatlılar', bgText: 'T', bgImage: './bg-dessert.png',
     items: [
       { id: 401, name: 'San Sebastian', desc: 'Akışkan Belçika çikolatası ile servis edilir', price: '180 ₺', image: '' },
       { id: 402, name: 'Sıcak Brownie', desc: 'Vanilyalı dondurma ve kavrulmuş fındık', price: '160 ₺', image: '' }
     ]
   },
   { 
-    id: 5, name: 'İçecekler', bgText: 'İ',
+    id: 5, name: 'İçecekler', bgText: 'İ', bgImage: './bg-beverage.png',
     items: [
       { id: 501, name: 'Iced Caramel Macchiato', desc: 'Double espresso, karamel, soğuk süt', price: '120 ₺', image: '' },
       { id: 502, name: 'Orman Meyveli Frozen', desc: 'Taze orman meyveleri ve kırık buz', price: '140 ₺', image: '' }
@@ -469,7 +469,17 @@ function App() {
         {!activeCategory ? (
           <div className="categories-grid">
             {categories.map((category) => (
-              <div key={category.id} className="category-card" onClick={() => setActiveCategory(category.id)}>
+              <div 
+                key={category.id} 
+                className="category-card" 
+                onClick={() => setActiveCategory(category.id)}
+                style={{ 
+                  backgroundImage: category.bgImage ? `url(${category.bgImage})` : 'none',
+                  backgroundSize: 'cover',
+                  backgroundPosition: 'center'
+                }}
+              >
+                <div className="category-overlay"></div>
                 <span className="category-bg-text">{category.bgText}</span>
                 <h3 className="category-title">{translateCategory(category.name)}</h3>
               </div>
