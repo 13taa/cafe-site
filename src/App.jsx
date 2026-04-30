@@ -223,6 +223,7 @@ function App() {
   const [activeCategory, setActiveCategory] = useState(null);
   const [isAboutOpen, setIsAboutOpen] = useState(false);
   const [selectedImage, setSelectedImage] = useState(null);
+  const [isTopMenuOpen, setIsTopMenuOpen] = useState(false);
 
   // Site Settings State
   const [siteSettings, setSiteSettings] = useState(() => {
@@ -276,6 +277,17 @@ function App() {
 
   // Editing State
   const [editingItemPrice, setEditingItemPrice] = useState({});
+
+  useEffect(() => {
+    if (isMenuOpen || isAboutOpen || isAdminLoginOpen || isAdminDashboardOpen || selectedImage) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'auto';
+    }
+    return () => {
+      document.body.style.overflow = 'auto';
+    };
+  }, [isMenuOpen, isAboutOpen, isAdminLoginOpen, isAdminDashboardOpen, selectedImage]);
 
   const handleCloseMenu = () => {
     setIsMenuOpen(false);
@@ -383,13 +395,23 @@ function App() {
   return (
     <>
       <main className="hero-section">
-        <div className="language-switcher">
-          <button onClick={() => setLanguage('tr')} className={language === 'tr' ? 'active' : ''} title="Türkçe">TR</button>
-          <button onClick={() => setLanguage('en')} className={language === 'en' ? 'active' : ''} title="English">EN</button>
-          <button onClick={() => setLanguage('fr')} className={language === 'fr' ? 'active' : ''} title="Français">FR</button>
+        <div className="top-menu-container">
+          <button className="hamburger-btn" onClick={() => setIsTopMenuOpen(!isTopMenuOpen)}>
+            &#9776;
+          </button>
+          <div className={`top-dropdown ${isTopMenuOpen ? 'active' : ''}`}>
+            <button className="dropdown-about-btn" onClick={() => { setIsTopMenuOpen(false); setIsAboutOpen(true); }}>
+              {t.about}
+            </button>
+            <div className="dropdown-divider"></div>
+            <div className="dropdown-langs">
+              <button onClick={() => { setLanguage('tr'); setIsTopMenuOpen(false); }} className={language === 'tr' ? 'active' : ''} title="Türkçe">TR</button>
+              <button onClick={() => { setLanguage('en'); setIsTopMenuOpen(false); }} className={language === 'en' ? 'active' : ''} title="English">EN</button>
+              <button onClick={() => { setLanguage('fr'); setIsTopMenuOpen(false); }} className={language === 'fr' ? 'active' : ''} title="Français">FR</button>
+            </div>
+          </div>
         </div>
 
-        <button className="about-btn" onClick={() => setIsAboutOpen(true)}>{t.about}</button>
         <button className="admin-btn" onClick={() => setIsAdminLoginOpen(true)} title={t.adminLoginTitle}>&#x1F512;</button>
         
         <div className="hero-content">
